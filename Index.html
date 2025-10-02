@@ -41,7 +41,6 @@
   }
   /* Inputs */
   .login-container input[type="text"],
-  .login-container input[type="email"],
   .login-container input[type="password"] {
     width: 100%;
     padding: 0.75rem 1rem;
@@ -59,7 +58,6 @@
     color: #dce7d0cc;
   }
   .login-container input[type="text"]:focus,
-  .login-container input[type="email"]:focus,
   .login-container input[type="password"]:focus {
     background: rgba(220, 231, 208, 0.6);
   }
@@ -68,7 +66,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.6rem;
+    margin-bottom: 1.2rem;
     font-size: 0.85rem;
     color: #dce7d0cc;
     user-select: none;
@@ -92,7 +90,18 @@
   .login-options a:hover {
     color: #a6bb6e;
   }
-  /* Login/Register button */
+  /* Error message */
+  .error-message {
+    display: none;
+    color: #ff6b6b;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    background: rgba(255, 107, 107, 0.1);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+  }
+  /* Login button */
   .login-btn {
     width: 100%;
     background-color: #a6bb6e;
@@ -105,13 +114,13 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     box-shadow: 0 4px 10px rgba(166, 187, 110, 0.7);
-    margin-bottom: 1.4rem;
   }
   .login-btn:hover {
     background-color: #879c4f;
   }
-  /* Register/Login text */
+  /* Register text */
   .register-text {
+    margin-top: 1.4rem;
     font-size: 0.9rem;
     color: #dce7d0cc;
   }
@@ -135,54 +144,51 @@
 </style>
 </head>
 <body>
-  <section class="login-container" id="auth-container" aria-label="Authentication form">
-    <!-- Login Form -->
-    <div id="login-form">
-      <h2>Login</h2>
-      <form>
-        <input type="text" placeholder="Username" autocomplete="username" aria-label="Username" required />
-        <input type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" required />
-        <div class="login-options">
-          <label><input type="checkbox" /> Remember me</label>
-          <a href="#" tabindex="0">Forgot Password?</a>
-        </div>
-        <button type="submit" class="login-btn">Login</button>
-      </form>
-      <p class="register-text">
-        Don't have an account? <a href="#" id="show-register" tabindex="0">Register</a>
-      </p>
-    </div>
-
-    <!-- Register Form -->
-    <div id="register-form" style="display: none;">
-      <h2>Register</h2>
-      <form>
-        <input type="text" placeholder="Họ (Last Name)" aria-label="Last Name" required />
-        <input type="text" placeholder="Tên (First Name)" aria-label="First Name" required />
-        <input type="email" placeholder="Gmail (Email)" aria-label="Email" required />
-        <input type="password" placeholder="Mật khẩu (Password)" aria-label="Password" required />
-        <input type="password" placeholder="Xác nhận mật khẩu (Confirm Password)" aria-label="Confirm Password" required />
-        <button type="submit" class="login-btn">Register</button>
-      </form>
-      <p class="register-text">
-        Already have an account? <a href="#" id="show-login" tabindex="0">Login</a>
-      </p>
-    </div>
+  <section class="login-container" aria-label="Login form">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="text" placeholder="Username" autocomplete="username" aria-label="Username" required />
+      <input type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" required />
+      <div class="login-options">
+        <label><input type="checkbox" id="rememberMe" /> Remember me</label>
+        <a href="#" tabindex="0">Forgot Password?</a>
+      </div>
+      <div id="errorMessage" class="error-message">Bạn phải bật Remember me</div>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+    <p class="register-text">
+      Don't have an account? <a href="#" tabindex="0">Register</a>
+    </p>
   </section>
 
   <script>
-    // Toggle between login and register forms
-    document.getElementById('show-register').addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('login-form').style.display = 'none';
-      document.getElementById('register-form').style.display = 'block';
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Ngăn submit mặc định
+
+      const rememberMe = document.getElementById('rememberMe');
+      const errorMessage = document.getElementById('errorMessage');
+
+      if (!rememberMe.checked) {
+        // Hiển thị thông báo lỗi nếu không bật Remember me
+        errorMessage.style.display = 'block';
+        return; // Dừng xử lý
+      } else {
+        // Ẩn thông báo lỗi nếu đã bật
+        errorMessage.style.display = 'none';
+      }
+
+      // Giả sử đăng nhập thành công (bạn có thể thêm logic kiểm tra username/password ở đây nếu cần)
+      // Chuyển hướng đến trang được chỉ định
+      window.location.href = 'https://htmlpreview.github.io/?https://raw.githubusercontent.com/longhazem/hakorelibrary/main/index.html';
     });
 
-    document.getElementById('show-login').addEventListener('click', function(e) {
-      e.preventDefault();
-      document.getElementById('register-form').style.display = 'none';
-      document.getElementById('login-form').style.display = 'block';
+    // Ẩn thông báo lỗi khi checkbox được thay đổi
+    document.getElementById('rememberMe').addEventListener('change', function() {
+      const errorMessage = document.getElementById('errorMessage');
+      if (this.checked) {
+        errorMessage.style.display = 'none';
+      }
     });
   </script>
 </body>
-                                                       </html>
+</html>
