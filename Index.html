@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Login Form with Frosted Glass</title>
+<title>Login & Register Form with Frosted Glass</title>
 <style>
   /* Reset and base */
   * {
@@ -24,7 +24,7 @@
     color: white;
   }
   /* Frosted glass container */
-  .login-container {
+  .form-container {
     background: rgba(67, 99, 67, 0.4); /* translucent greenish */
     backdrop-filter: blur(12px);
     border-radius: 1rem;
@@ -32,16 +32,18 @@
     width: 320px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.25);
     text-align: center;
+    position: relative;
   }
-  .login-container h2 {
+  .form-container h2 {
     font-weight: 600;
     margin-bottom: 1.6rem;
     font-size: 1.5rem;
     color: #dce7d0;
   }
   /* Inputs */
-  .login-container input[type="text"],
-  .login-container input[type="password"] {
+  .form-container input[type="text"],
+  .form-container input[type="email"],
+  .form-container input[type="password"] {
     width: 100%;
     padding: 0.75rem 1rem;
     margin-bottom: 1.2rem;
@@ -54,14 +56,15 @@
     font-weight: 500;
     transition: background-color 0.3s ease;
   }
-  .login-container input::placeholder {
+  .form-container input::placeholder {
     color: #dce7d0cc;
   }
-  .login-container input[type="text"]:focus,
-  .login-container input[type="password"]:focus {
+  .form-container input[type="text"]:focus,
+  .form-container input[type="email"]:focus,
+  .form-container input[type="password"]:focus {
     background: rgba(220, 231, 208, 0.6);
   }
-  /* Remember & forgot */
+  /* Remember & forgot for login */
   .login-options {
     display: flex;
     justify-content: space-between;
@@ -101,8 +104,8 @@
     border-radius: 0.5rem;
     border: 1px solid rgba(255, 107, 107, 0.3);
   }
-  /* Login button */
-  .login-btn {
+  /* Submit button */
+  .submit-btn {
     width: 100%;
     background-color: #a6bb6e;
     border: none;
@@ -114,29 +117,36 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     box-shadow: 0 4px 10px rgba(166, 187, 110, 0.7);
+    margin-bottom: 1.4rem;
   }
-  .login-btn:hover {
+  .submit-btn:hover {
     background-color: #879c4f;
   }
-  /* Register text */
-  .register-text {
-    margin-top: 1.4rem;
+  /* Switch form link */
+  .switch-text {
     font-size: 0.9rem;
     color: #dce7d0cc;
   }
-  .register-text a {
+  .switch-text a {
     color: #a6bb6e;
     font-weight: 600;
     text-decoration: none;
     cursor: pointer;
     transition: color 0.3s ease;
   }
-  .register-text a:hover {
+  .switch-text a:hover {
     color: #879c4f;
+  }
+  /* Hide/show forms */
+  .form-section {
+    display: none;
+  }
+  .form-section.active {
+    display: block;
   }
   /* Responsive */
   @media (max-width: 400px) {
-    .login-container {
+    .form-container {
       width: 90vw;
       padding: 2rem;
     }
@@ -144,29 +154,62 @@
 </style>
 </head>
 <body>
-  <section class="login-container" aria-label="Login form">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <input type="text" placeholder="Username" autocomplete="username" aria-label="Username" required />
-      <input type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" required />
-      <div class="login-options">
-        <label><input type="checkbox" id="rememberMe" /> Remember me</label>
-        <a href="#" tabindex="0">Forgot Password?</a>
-      </div>
-      <div id="errorMessage" class="error-message">Bạn phải bật Remember me</div>
-      <button type="submit" class="login-btn">Login</button>
-    </form>
-    <p class="register-text">
-      Don't have an account? <a href="#" tabindex="0">Register</a>
-    </p>
+  <section class="form-container" aria-label="Login and Register forms">
+    <!-- Login Form -->
+    <div id="loginSection" class="form-section active">
+      <h2>Đăng Nhập</h2>
+      <form id="loginForm">
+        <input type="text" placeholder="Tên đăng nhập" autocomplete="username" aria-label="Username" required />
+        <input type="password" placeholder="Mật khẩu" autocomplete="current-password" aria-label="Password" required />
+        <div class="login-options">
+          <label><input type="checkbox" id="rememberMe" /> Remember me</label>
+          <a href="#" tabindex="0">Quên mật khẩu?</a>
+        </div>
+        <div id="loginErrorMessage" class="error-message">Bạn phải bật Remember me</div>
+        <button type="submit" class="submit-btn">Đăng Nhập</button>
+      </form>
+      <p class="switch-text">
+        Chưa có tài khoản? <a href="#" id="showRegister" tabindex="0">Đăng Ký</a>
+      </p>
+    </div>
+
+    <!-- Register Form -->
+    <div id="registerSection" class="form-section">
+      <h2>Đăng Ký</h2>
+      <form id="registerForm">
+        <input type="text" placeholder="Họ" aria-label="Last Name" required />
+        <input type="text" placeholder="Tên" aria-label="First Name" required />
+        <input type="email" placeholder="Gmail" aria-label="Email" required />
+        <input type="password" placeholder="Mật khẩu" aria-label="Password" required />
+        <div id="registerErrorMessage" class="error-message">Vui lòng điền đầy đủ thông tin</div>
+        <button type="submit" class="submit-btn">Đăng Ký</button>
+      </form>
+      <p class="switch-text">
+        Đã có tài khoản? <a href="#" id="showLogin" tabindex="0">Đăng Nhập</a>
+      </p>
+    </div>
   </section>
 
   <script>
+    // Toggle between login and register forms
+    document.getElementById('showRegister').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('loginSection').classList.remove('active');
+      document.getElementById('registerSection').classList.add('active');
+    });
+
+    document.getElementById('showLogin').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('registerSection').classList.remove('active');
+      document.getElementById('loginSection').classList.add('active');
+    });
+
+    // Login form handling
     document.getElementById('loginForm').addEventListener('submit', function(event) {
       event.preventDefault(); // Ngăn submit mặc định
 
       const rememberMe = document.getElementById('rememberMe');
-      const errorMessage = document.getElementById('errorMessage');
+      const errorMessage = document.getElementById('loginErrorMessage');
 
       if (!rememberMe.checked) {
         // Hiển thị thông báo lỗi nếu không bật Remember me
@@ -177,18 +220,49 @@
         errorMessage.style.display = 'none';
       }
 
-      // Giả sử đăng nhập thành công (bạn có thể thêm logic kiểm tra username/password ở đây nếu cần)
+      // Giả sử đăng nhập thành công
       // Chuyển hướng đến trang được chỉ định sau khi đăng nhập
       window.location.href = 'https://htmlpreview.github.io/?https://raw.githubusercontent.com/longhazem/hakorelibrary/main/index.html';
     });
 
-    // Ẩn thông báo lỗi khi checkbox được thay đổi
+    // Ẩn thông báo lỗi khi checkbox được thay đổi (login)
     document.getElementById('rememberMe').addEventListener('change', function() {
-      const errorMessage = document.getElementById('errorMessage');
+      const errorMessage = document.getElementById('loginErrorMessage');
       if (this.checked) {
         errorMessage.style.display = 'none';
       }
     });
+
+    // Register form handling
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Ngăn submit mặc định
+
+      const form = this;
+      const errorMessage = document.getElementById('registerErrorMessage');
+      const inputs = form.querySelectorAll('input[required]');
+      let isValid = true;
+
+      // Kiểm tra tất cả trường required
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          isValid = false;
+        }
+      });
+
+      if (!isValid) {
+        errorMessage.style.display = 'block';
+        return; // Dừng xử lý
+      } else {
+        errorMessage.style.display = 'none';
+      }
+
+      // Giả sử đăng ký thành công (bạn có thể thêm logic gửi dữ liệu đến server ở đây)
+      alert('Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.'); // Thông báo tạm thời
+      // Chuyển về form login
+      document.getElementById('registerSection').classList.remove('active');
+      document.getElementById('loginSection').classList.add('active');
+      // Hoặc redirect nếu cần: window.location.href = '...';
+    });
   </script>
 </body>
-</html>
+  </html>
