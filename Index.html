@@ -41,6 +41,7 @@
   }
   /* Inputs */
   .login-container input[type="text"],
+  .login-container input[type="email"],
   .login-container input[type="password"] {
     width: 100%;
     padding: 0.75rem 1rem;
@@ -58,6 +59,7 @@
     color: #dce7d0cc;
   }
   .login-container input[type="text"]:focus,
+  .login-container input[type="email"]:focus,
   .login-container input[type="password"]:focus {
     background: rgba(220, 231, 208, 0.6);
   }
@@ -90,7 +92,7 @@
   .login-options a:hover {
     color: #a6bb6e;
   }
-  /* Login button */
+  /* Login/Register button */
   .login-btn {
     width: 100%;
     background-color: #a6bb6e;
@@ -103,13 +105,13 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     box-shadow: 0 4px 10px rgba(166, 187, 110, 0.7);
+    margin-bottom: 1.4rem;
   }
   .login-btn:hover {
     background-color: #879c4f;
   }
-  /* Register text */
+  /* Register/Login text */
   .register-text {
-    margin-top: 1.4rem;
     font-size: 0.9rem;
     color: #dce7d0cc;
   }
@@ -133,37 +135,54 @@
 </style>
 </head>
 <body>
-  <section class="login-container" aria-label="Login form">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <input type="text" placeholder="Username" autocomplete="username" aria-label="Username" required />
-      <input type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" required />
-      <div class="login-options">
-        <label><input type="checkbox" /> Remember me</label>
-        <a href="#" tabindex="0">Forgot Password?</a>
-      </div>
-      <button type="submit" class="login-btn">Login</button>
-    </form>
-    <p class="register-text">
-      Don't have an account? <a href="#" tabindex="0">Register</a>
-    </p>
+  <section class="login-container" id="auth-container" aria-label="Authentication form">
+    <!-- Login Form -->
+    <div id="login-form">
+      <h2>Login</h2>
+      <form>
+        <input type="text" placeholder="Username" autocomplete="username" aria-label="Username" required />
+        <input type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" required />
+        <div class="login-options">
+          <label><input type="checkbox" /> Remember me</label>
+          <a href="#" tabindex="0">Forgot Password?</a>
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+      <p class="register-text">
+        Don't have an account? <a href="#" id="show-register" tabindex="0">Register</a>
+      </p>
+    </div>
+
+    <!-- Register Form -->
+    <div id="register-form" style="display: none;">
+      <h2>Register</h2>
+      <form>
+        <input type="text" placeholder="Họ (Last Name)" aria-label="Last Name" required />
+        <input type="text" placeholder="Tên (First Name)" aria-label="First Name" required />
+        <input type="email" placeholder="Gmail (Email)" aria-label="Email" required />
+        <input type="password" placeholder="Mật khẩu (Password)" aria-label="Password" required />
+        <input type="password" placeholder="Xác nhận mật khẩu (Confirm Password)" aria-label="Confirm Password" required />
+        <button type="submit" class="login-btn">Register</button>
+      </form>
+      <p class="register-text">
+        Already have an account? <a href="#" id="show-login" tabindex="0">Login</a>
+      </p>
+    </div>
   </section>
 
   <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault(); // Ngăn form submit mặc định
+    // Toggle between login and register forms
+    document.getElementById('show-register').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('register-form').style.display = 'block';
+    });
 
-      const username = document.querySelector('input[type="text"]').value.trim();
-      const password = document.querySelector('input[type="password"]').value.trim();
-
-      // Kiểm tra đơn giản: nếu cả hai trường đều được điền, coi như đăng nhập thành công
-      if (username && password) {
-        // Chuyển hướng đến trang sau khi "đăng nhập thành công"
-        window.location.href = 'https://htmlpreview.github.io/?https://raw.githubusercontent.com/longhazem/hakorelibrary/main/index.html';
-      } else {
-        alert('Vui lòng điền đầy đủ thông tin đăng nhập!');
-      }
+    document.getElementById('show-login').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('register-form').style.display = 'none';
+      document.getElementById('login-form').style.display = 'block';
     });
   </script>
 </body>
-</html>
+                                                       </html>
