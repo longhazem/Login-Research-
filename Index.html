@@ -135,7 +135,7 @@
 <body>
   <section class="login-container" aria-label="Login form">
     <h2>Login</h2>
-    <form>
+    <form id="loginForm">
       <input type="text" placeholder="Username" autocomplete="username" aria-label="Username" required />
       <input type="password" placeholder="Password" autocomplete="current-password" aria-label="Password" required />
       <div class="login-options">
@@ -148,5 +148,22 @@
       Don't have an account? <a href="#" tabindex="0">Register</a>
     </p>
   </section>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Ngăn form submit mặc định
+
+      const username = document.querySelector('input[type="text"]').value.trim();
+      const password = document.querySelector('input[type="password"]').value.trim();
+
+      // Kiểm tra đơn giản: nếu cả hai trường đều được điền, coi như đăng nhập thành công
+      if (username && password) {
+        // Chuyển hướng đến trang sau khi "đăng nhập thành công"
+        window.location.href = 'https://htmlpreview.github.io/?https://raw.githubusercontent.com/longhazem/hakorelibrary/main/index.html';
+      } else {
+        alert('Vui lòng điền đầy đủ thông tin đăng nhập!');
+      }
+    });
+  </script>
 </body>
-  </html>
+</html>
